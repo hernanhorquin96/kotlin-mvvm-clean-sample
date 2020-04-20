@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.globant.myapplication">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
+
     <application
         android:name="com.globant.SampleApplication"
         android:allowBackup="true"
@@ -12,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.globant.activities.CharactersActivity"/>
+        <activity android:name="com.globant.activities.CharactersActivity" />
         <activity android:name="com.globant.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,7 +24,4 @@
             </intent-filter>
         </activity>
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
-
 </manifest>

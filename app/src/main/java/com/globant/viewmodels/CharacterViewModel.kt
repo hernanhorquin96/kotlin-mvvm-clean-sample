@@ -26,10 +26,10 @@ class CharacterViewModel(val getCharacterById: GetCharacterByIdUseCase) : ViewMo
         mutableMainState.value = Event(Data(responseType = Status.LOADING))
         when (val result = withContext(Dispatchers.IO) { getCharacterById(id, true) }) {
             is Result.Failure -> {
-                mutableMainState.value = Event(Data(responseType = Status.ERROR, error = result.exception))
+                mutableMainState.postValue(Event(Data(responseType = Status.ERROR, error = result.exception)))
             }
             is Result.Success -> {
-                mutableMainState.value = Event(Data(responseType = Status.SUCCESSFUL, data = result.data))
+                mutableMainState.postValue(Event(Data(responseType = Status.SUCCESSFUL, data = result.data)))
             }
         }
     }
@@ -38,10 +38,10 @@ class CharacterViewModel(val getCharacterById: GetCharacterByIdUseCase) : ViewMo
         mutableMainState.value = Event(Data(responseType = Status.LOADING))
         when (val result = withContext(Dispatchers.IO) { getCharacterById(id, false) }) {
             is Result.Failure -> {
-                mutableMainState.value = Event(Data(responseType = Status.ERROR, error = result.exception))
+                mutableMainState.postValue(Event(Data(responseType = Status.ERROR, error = result.exception)))
             }
             is Result.Success -> {
-                mutableMainState.value = Event(Data(responseType = Status.SUCCESSFUL, data = result.data))
+                mutableMainState.postValue(Event(Data(responseType = Status.SUCCESSFUL, data = result.data)))
             }
         }
     }

@@ -26,10 +26,10 @@ class CharactersViewModel(val getCharactersUseCase: GetCharactersUseCase) : View
         mutableMainState.value = Event(Data(responseType = Status.LOADING))
         when (val result = withContext(Dispatchers.IO) { getCharactersUseCase() }) {
             is Result.Failure -> {
-                mutableMainState.value = Event(Data(responseType = Status.ERROR, error = result.exception))
+                mutableMainState.postValue(Event(Data(responseType = Status.GetCharacterError, error = result.exception)))
             }
             is Result.Success -> {
-                mutableMainState.value = Event(Data(responseType = Status.SUCCESSFUL, data = result.data))
+                mutableMainState.postValue(Event(Data(responseType = Status.GetCharacterSuccess, data = result.data)))
             }
         }
     }

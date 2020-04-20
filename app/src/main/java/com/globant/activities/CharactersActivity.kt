@@ -26,28 +26,18 @@ class CharactersActivity : AppCompatActivity() {
 
     private fun updateUI(charactersData: Event<Data<List<MarvelCharacter>>>) {
         when (charactersData.peekContent().responseType) {
-            Status.ERROR -> {
-                hideProgress()
-                charactersData.peekContent().error?.message?.let { showMessage(it) }
+            Status.GetCharacterError -> {
+                progress.visibility = View.GONE
+                charactersData.peekContent().error?.message?.let {
+                    Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+                }
             }
             Status.LOADING -> {
-                showProgress()
+                progress.visibility = View.VISIBLE
             }
-            Status.SUCCESSFUL -> {
-                hideProgress()
+            Status.GetCharacterSuccess -> {
+                progress.visibility = View.GONE
             }
         }
-    }
-
-    private fun showProgress() {
-        progress.visibility = View.VISIBLE
-    }
-
-    private fun hideProgress() {
-        progress.visibility = View.GONE
-    }
-
-    private fun showMessage(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 }
