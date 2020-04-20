@@ -5,7 +5,7 @@ import com.globant.domain.entities.MarvelCharacter
 
 open class CharacterMapperService : BaseMapperRepository<CharacterResponse, MarvelCharacter> {
 
-    override fun transform(type: CharacterResponse): MarvelCharacter =
+    override fun transformToCharacter(type: CharacterResponse): MarvelCharacter =
             MarvelCharacter(
             type.id,
             type.name,
@@ -18,4 +18,7 @@ open class CharacterMapperService : BaseMapperRepository<CharacterResponse, Marv
             type.name,
             type.description
         )
+
+    fun transform(charactersResponse: List<CharacterResponse>): List<MarvelCharacter>
+            = charactersResponse.map { transformToCharacter(it) }
 }

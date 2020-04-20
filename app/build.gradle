@@ -53,6 +53,7 @@ dependencies {
     implementation lib.constraintlayout
     implementation lib.viewmodel
 
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation lib.junit_version
     androidTestImplementation lib.test_runner_version
     androidTestImplementation lib.espresso_core_version
@@ -68,5 +69,6 @@ dependencies {
 
     debugImplementation lib.chucker
     releaseImplementation lib.chuckerReleaseImplementation
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
 
 }
