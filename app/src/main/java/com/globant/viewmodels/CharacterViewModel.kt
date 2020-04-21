@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.globant.domain.entities.MarvelCharacter
 import com.globant.domain.usecases.GetCharacterByIdUseCase
+import com.globant.domain.usecases.implementations.GetCharacterByIdUseCaseImpl
 import com.globant.domain.utils.Result
 import com.globant.utils.Data
 import com.globant.utils.Event
@@ -24,7 +25,7 @@ class CharacterViewModel(val getCharacterById: GetCharacterByIdUseCase) : ViewMo
 
     fun onSearchRemoteClicked(id: Int) = viewModelScope.launch {
         mutableMainState.value = Event(Data(responseType = Status.LOADING))
-        when (val result = withContext(Dispatchers.IO) { getCharacterById(id, true) }) {
+        when (val result = withContext(Dispatchers.IO) { getCharacterById.invoke(id, true) }) {
             is Result.Failure -> {
                 mutableMainState.postValue(Event(Data(responseType = Status.ERROR, error = result.exception)))
             }
@@ -36,7 +37,7 @@ class CharacterViewModel(val getCharacterById: GetCharacterByIdUseCase) : ViewMo
 
     fun onSearchLocalClicked(id: Int) = viewModelScope.launch {
         mutableMainState.value = Event(Data(responseType = Status.LOADING))
-        when (val result = withContext(Dispatchers.IO) { getCharacterById(id, false) }) {
+        when (val result = withContext(Dispatchers.IO) { getCharacterById.invoke(id, false) }) {
             is Result.Failure -> {
                 mutableMainState.postValue(Event(Data(responseType = Status.ERROR, error = result.exception)))
             }

@@ -1,10 +1,8 @@
 package com.globant.domain.entities
 
-val NOT_FOUND = "NOT FOUND"
-val DEFAULT_ID = 0
-
 class MarvelCharacter(
-        val id: Int = DEFAULT_ID,
-        val name: String = NOT_FOUND,
-        val description: String = NOT_FOUND
+        val id: Int,
+        val name: String,
+        val description: String,
+        val thumbnail: Thumbnail
 )

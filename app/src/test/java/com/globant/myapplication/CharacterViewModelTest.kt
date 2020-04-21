@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.globant.di.useCasesModule
 import com.globant.domain.entities.MarvelCharacter
-import com.globant.domain.usecases.GetCharacterByIdUseCase
+import com.globant.domain.usecases.implementations.GetCharacterByIdUseCaseImpl
 import com.globant.domain.utils.Result
 import com.globant.utils.Data
 import com.globant.utils.Status
@@ -45,7 +45,7 @@ class CharacterViewModelTest : AutoCloseKoinTest() {
     @Mock lateinit var marvelCharacter: MarvelCharacter
     @Mock lateinit var exception: Exception
 
-    private val getCharacterByIdUseCase: GetCharacterByIdUseCase by inject()
+    private val getCharacterByIdUseCase: GetCharacterByIdUseCaseImpl by inject()
 
     @ExperimentalCoroutinesApi
     @ObsoleteCoroutinesApi
@@ -56,7 +56,7 @@ class CharacterViewModelTest : AutoCloseKoinTest() {
             modules(listOf(useCasesModule))
         }
 
-        declareMock<GetCharacterByIdUseCase>()
+        declareMock<GetCharacterByIdUseCaseImpl>()
         MockitoAnnotations.initMocks(this)
         subject = CharacterViewModel(getCharacterByIdUseCase)
     }
