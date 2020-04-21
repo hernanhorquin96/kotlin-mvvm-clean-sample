@@ -23,7 +23,7 @@ class CharactersViewModel(val getCharactersUseCase: GetCharacterUseCase) : ViewM
         }
 
     fun getAllCharacters() = viewModelScope.launch {
-        mutableMainState.value = Event(Data(responseType = Status.LOADING))
+        mutableMainState.postValue(Event(Data(responseType = Status.LOADING)))
         when (val result = withContext(Dispatchers.IO) { getCharactersUseCase.invoke() }) {
             is Result.Failure -> {
                 mutableMainState.postValue(Event(Data(responseType = Status.GetCharacterError, error = result.exception)))

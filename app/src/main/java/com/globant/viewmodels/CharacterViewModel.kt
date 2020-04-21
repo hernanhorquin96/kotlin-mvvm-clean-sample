@@ -24,7 +24,7 @@ class CharacterViewModel(val getCharacterById: GetCharacterByIdUseCase) : ViewMo
         }
 
     fun onSearchRemoteClicked(id: Int) = viewModelScope.launch {
-        mutableMainState.value = Event(Data(responseType = Status.LOADING))
+        mutableMainState.postValue(Event(Data(responseType = Status.LOADING)))
         when (val result = withContext(Dispatchers.IO) { getCharacterById.invoke(id, true) }) {
             is Result.Failure -> {
                 mutableMainState.postValue(Event(Data(responseType = Status.ERROR, error = result.exception)))
@@ -36,7 +36,7 @@ class CharacterViewModel(val getCharacterById: GetCharacterByIdUseCase) : ViewMo
     }
 
     fun onSearchLocalClicked(id: Int) = viewModelScope.launch {
-        mutableMainState.value = Event(Data(responseType = Status.LOADING))
+        mutableMainState.postValue(Event(Data(responseType = Status.LOADING)))
         when (val result = withContext(Dispatchers.IO) { getCharacterById.invoke(id, false) }) {
             is Result.Failure -> {
                 mutableMainState.postValue(Event(Data(responseType = Status.ERROR, error = result.exception)))
