@@ -4,4 +4,9 @@
     <dimen name="panel_layout_width">250dp</dimen>
     <dimen name="panel_layout_margin_top">16dp</dimen>
     <dimen name="text_view_details_height">300dp</dimen>
+    <dimen name="super_hero_row_height">200dp</dimen>
+    <dimen name="margin_cardview">2dp</dimen>
+    <dimen name="default_margin">16dp</dimen>
+    <dimen name="radius_cardview_corners">4dp</dimen>
+    <dimen name="elevation_cardview">2dp</dimen>
 </resources>

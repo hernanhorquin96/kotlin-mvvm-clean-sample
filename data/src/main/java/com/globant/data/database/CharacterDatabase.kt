@@ -11,9 +11,9 @@ class CharacterDatabase {
     fun getCharacterById(id: Int): Result<MarvelCharacter> {
         val mapper = CharacterMapperLocal()
         Realm.getDefaultInstance().use {
-            val character = it.where(MarvelCharacterRealm::class.java).equalTo("id", id).findFirst()
-            character?.let { return Result.Success(mapper.transform(character)) }
-            return Result.Failure(Exception("Character not found"))
+            val character = it.where(MarvelCharacterRealm::class.java).equalTo(ID, id).findFirst()
+            character?.let { return Result.Success(mapper.transformToCharacter(character)) }
+            return Result.Failure(Exception(NOT_FOUND))
         }
     }
 
@@ -24,5 +24,10 @@ class CharacterDatabase {
                 realm.insertOrUpdate(mapperLocal.transformToRepository(character))
             }
         }
+    }
+
+    companion object {
+        private const val ID = "id"
+        private const val NOT_FOUND = "Character not found"
     }
 }
