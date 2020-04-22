@@ -11,6 +11,6 @@
     <dimen name="elevation_cardview">2dp</dimen>
     <dimen name="character_image_height">400dp</dimen>
     <dimen name="activity_margin">16dp</dimen>
-    <dimen name="name_text_size">24sp</dimen>
-    <dimen name="description_text_size">12sp</dimen>
+    <dimen name="name_text_size">18sp</dimen>
+    <dimen name="description_text_size">14sp</dimen>
 </resources>
