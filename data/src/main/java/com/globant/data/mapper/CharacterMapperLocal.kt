@@ -30,5 +30,4 @@ class CharacterMapperLocal : BaseMapperRepository<MarvelCharacterRealm, MarvelCh
             thumbnail?.path.toString(),
             thumbnail?.extension.toString()
     )
-
 }

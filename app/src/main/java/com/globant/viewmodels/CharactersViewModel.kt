@@ -24,12 +24,14 @@ class CharactersViewModel(val getCharactersUseCase: GetCharacterUseCase) : ViewM
 
     fun getAllCharacters() = viewModelScope.launch {
         mutableMainState.postValue(Event(Data(responseType = Status.LOADING)))
-        when (val result = withContext(Dispatchers.IO) { getCharactersUseCase.invoke() }) {
-            is Result.Failure -> {
-                mutableMainState.postValue(Event(Data(responseType = Status.GetCharacterError, error = result.exception)))
-            }
-            is Result.Success -> {
-                mutableMainState.postValue(Event(Data(responseType = Status.GetCharacterSuccess, data = result.data)))
+        withContext(Dispatchers.IO) { getCharactersUseCase.invoke() }.let { result ->
+            when (result) {
+                is Result.Failure -> {
+                    mutableMainState.postValue(Event(Data(responseType = Status.GetCharacterError, error = result.exception)))
+                }
+                is Result.Success -> {
+                    mutableMainState.postValue(Event(Data(responseType = Status.GetCharacterSuccess, data = result.data)))
+                }
             }
         }
     }

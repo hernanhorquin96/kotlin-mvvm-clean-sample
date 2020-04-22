@@ -1,6 +1,6 @@
 package com.globant.domain.entities
 
-class Thumbnail(
+data class Thumbnail(
         var path: String,
         var extension: String
 )

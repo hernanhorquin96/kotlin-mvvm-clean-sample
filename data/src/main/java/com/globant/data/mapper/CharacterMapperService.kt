@@ -1,6 +1,6 @@
 package com.globant.data.mapper
 
-import com.globant.data.database.ThumbnailResponse
+import com.globant.data.service.response.ThumbnailResponse
 import com.globant.data.service.response.CharacterResponse
 import com.globant.domain.entities.MarvelCharacter
 import com.globant.domain.entities.Thumbnail

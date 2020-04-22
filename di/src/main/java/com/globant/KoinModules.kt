@@ -19,6 +19,6 @@ val repositoriesModule = module {
 }
 
 val useCasesModule = module {
-    single<GetCharacterByIdUseCase> { GetCharacterByIdUseCaseImpl() }
-    single<GetCharacterUseCase> { GetCharactersUseCaseImpl() }
+    factory<GetCharacterByIdUseCase> { GetCharacterByIdUseCaseImpl() }
+    factory<GetCharacterUseCase> { GetCharactersUseCaseImpl() }
 }

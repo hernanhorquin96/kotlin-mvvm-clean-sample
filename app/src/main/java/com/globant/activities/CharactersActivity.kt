@@ -44,7 +44,7 @@ class CharactersActivity : AppCompatActivity() {
                 progress_bar.visibility = View.GONE
                 charactersData.peekContent().data?.let {
                     adapter = CharacterAdapter(it) {
-
+                        //TODO: in next PR i will open the fragment dialog from here
                     }
                     recycler_view_characters.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
                     recycler_view_characters.adapter = adapter

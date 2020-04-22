@@ -25,24 +25,28 @@ class CharacterViewModel(val getCharacterById: GetCharacterByIdUseCase) : ViewMo
 
     fun onSearchRemoteClicked(id: Int) = viewModelScope.launch {
         mutableMainState.postValue(Event(Data(responseType = Status.LOADING)))
-        when (val result = withContext(Dispatchers.IO) { getCharacterById.invoke(id, true) }) {
-            is Result.Failure -> {
-                mutableMainState.postValue(Event(Data(responseType = Status.ERROR, error = result.exception)))
-            }
-            is Result.Success -> {
-                mutableMainState.postValue(Event(Data(responseType = Status.SUCCESSFUL, data = result.data)))
+        withContext(Dispatchers.IO) { getCharacterById.invoke(id, true) }.let { result ->
+            when (result) {
+                is Result.Failure -> {
+                    mutableMainState.postValue(Event(Data(responseType = Status.ERROR, error = result.exception)))
+                }
+                is Result.Success -> {
+                    mutableMainState.postValue(Event(Data(responseType = Status.SUCCESSFUL, data = result.data)))
+                }
             }
         }
     }
 
     fun onSearchLocalClicked(id: Int) = viewModelScope.launch {
         mutableMainState.postValue(Event(Data(responseType = Status.LOADING)))
-        when (val result = withContext(Dispatchers.IO) { getCharacterById.invoke(id, false) }) {
-            is Result.Failure -> {
-                mutableMainState.postValue(Event(Data(responseType = Status.ERROR, error = result.exception)))
-            }
-            is Result.Success -> {
-                mutableMainState.postValue(Event(Data(responseType = Status.SUCCESSFUL, data = result.data)))
+        withContext(Dispatchers.IO) { getCharacterById.invoke(id, false) }.let { result ->
+            when (result) {
+                is Result.Failure -> {
+                    mutableMainState.postValue(Event(Data(responseType = Status.ERROR, error = result.exception)))
+                }
+                is Result.Success -> {
+                    mutableMainState.postValue(Event(Data(responseType = Status.SUCCESSFUL, data = result.data)))
+                }
             }
         }
     }

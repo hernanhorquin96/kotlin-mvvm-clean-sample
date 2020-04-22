@@ -1,6 +1,6 @@
 package com.globant.domain.entities
 
-class MarvelCharacter(
+data class MarvelCharacter(
         val id: Int,
         val name: String,
         val description: String,
