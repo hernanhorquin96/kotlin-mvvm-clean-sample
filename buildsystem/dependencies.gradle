@@ -21,6 +21,7 @@ ext{
     androidx_viewmodel = "2.2.0"
     glide = "3.7.0"
     recyclerview = "26.1.0"
+    material = "1.0.0-rc01"
 
     generalDependencies = [
             appcompat                       : "androidx.appcompat:appcompat:${appcompat}",
@@ -45,6 +46,7 @@ ext{
             retrofit2                       : "com.squareup.retrofit2:retrofit:${retrofit2}",
             retrofitComverterGson           : "com.squareup.retrofit2:converter-gson:${retrofitComverterGson}",
             okhttp3LoggingInterceptor       : "com.squareup.okhttp3:logging-interceptor:${okhttp3LoggingInterceptor}",
-            glide                           : "com.github.bumptech.glide:glide:${glide}"
+            glide                           : "com.github.bumptech.glide:glide:${glide}",
+            material                        : "com.google.android.material:material:${material}"
     ]
 }

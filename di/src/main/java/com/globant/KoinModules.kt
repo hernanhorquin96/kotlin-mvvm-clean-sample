@@ -12,10 +12,9 @@ import com.globant.domain.usecases.implementations.GetCharactersUseCaseImpl
 import org.koin.dsl.module
 
 val repositoriesModule = module {
-    single { MarvelCharactersServiceImpl() }
     single { CharacterDatabase() }
-    single<MarvelCharacterRepository> { MarvelCharacterRepositoryImpl(get(), get()) }
-    single<MarvelCharactersService> { MarvelCharactersServiceImpl() }
+    single<MarvelCharacterRepository>{ MarvelCharacterRepositoryImpl(get()) }
+    single<MarvelCharactersService> { MarvelCharactersServiceImpl(get()) }
 }
 
 val useCasesModule = module {

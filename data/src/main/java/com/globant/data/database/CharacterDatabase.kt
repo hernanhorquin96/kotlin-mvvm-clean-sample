@@ -26,6 +26,28 @@ class CharacterDatabase {
         }
     }
 
+    fun insertCharacters(characters: List<MarvelCharacter>) {
+        val mapperLocal = CharacterMapperLocal()
+        Realm.getDefaultInstance().use {
+            it.executeTransaction { realm ->
+                characters.map { character ->
+                    realm.insertOrUpdate(mapperLocal.transformToRepository(character))
+                }
+            }
+        }
+    }
+
+    fun getCharacters(): Result<List<MarvelCharacter>> {
+        val mapperLocal = CharacterMapperLocal()
+        Realm.getDefaultInstance().use { realm ->
+            val characters = realm.where(MarvelCharacterRealm::class.java).findAll()
+            characters?.let {
+                return Result.Success(mapperLocal.transformToListOfCharacters(it))
+            }
+        }
+        return Result.Failure(Exception(NOT_FOUND))
+    }
+
     companion object {
         private const val ID = "id"
         private const val NOT_FOUND = "Character not found"

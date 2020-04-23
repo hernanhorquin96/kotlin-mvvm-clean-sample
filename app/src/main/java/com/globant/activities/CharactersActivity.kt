@@ -13,6 +13,7 @@ import com.globant.utils.Data
 import com.globant.utils.Event
 import com.globant.utils.Status
 import com.globant.viewmodels.CharactersViewModel
+import kotlinx.android.synthetic.main.activity_characters.button_refresh
 import kotlinx.android.synthetic.main.activity_characters.progress_bar
 import kotlinx.android.synthetic.main.activity_characters.recycler_view_characters
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -25,7 +26,9 @@ class CharactersActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_characters)
-        viewModel.getAllCharacters()
+        button_refresh.setOnClickListener {
+            viewModel.getAllCharacters()
+        }
         viewModel.mainState.observe(::getLifecycle, ::updateUI)
     }
 

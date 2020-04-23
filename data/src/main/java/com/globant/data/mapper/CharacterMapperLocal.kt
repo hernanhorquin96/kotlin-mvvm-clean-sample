@@ -30,4 +30,6 @@ class CharacterMapperLocal : BaseMapperRepository<MarvelCharacterRealm, MarvelCh
             thumbnail?.path.toString(),
             thumbnail?.extension.toString()
     )
+
+    fun transformToListOfCharacters(charactersRealm: List<MarvelCharacterRealm>) = charactersRealm.map { transformToCharacter(it) }
 }

@@ -20,4 +20,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button_refresh"
+        android:layout_width="@dimen/margin_floating_button"
+        android:layout_height="@dimen/margin_floating_button"
+        android:layout_margin="@dimen/margin_cardview"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_refresh"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
