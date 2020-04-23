@@ -42,9 +42,10 @@ class CharactersActivity : AppCompatActivity() {
             }
             Status.GetCharacterSuccess -> {
                 progress_bar.visibility = View.GONE
-                charactersData.peekContent().data?.let {
-                    adapter = CharacterAdapter(it) {
-                        //TODO: in next PR i will open the fragment dialog from here
+                charactersData.peekContent().data?.let { characterList ->
+                    adapter = CharacterAdapter(characterList) { character ->
+                        val characterFragment = CharacterDetailFragment.newInstance(character.id)
+                        characterFragment.show(supportFragmentManager, getString(R.string.tag))
                     }
                     recycler_view_characters.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
                     recycler_view_characters.adapter = adapter
