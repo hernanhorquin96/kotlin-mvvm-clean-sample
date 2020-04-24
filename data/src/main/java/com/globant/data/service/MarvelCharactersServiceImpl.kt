@@ -1,15 +1,15 @@
 package com.globant.data.service
 
 import com.globant.data.MarvelRequestGenerator
+import com.globant.data.NOT_FOUND
 import com.globant.data.ZERO
 import com.globant.data.mapper.CharacterMapperService
 import com.globant.data.service.api.MarvelApi
 import com.globant.domain.entities.MarvelCharacter
-import com.globant.domain.repositories.MarvelCharacterRepository
 import com.globant.domain.services.MarvelCharactersService
 import com.globant.domain.utils.Result
 
-class MarvelCharactersServiceImpl(private val marvelCharacterRepositoryImpl: MarvelCharacterRepository) : MarvelCharactersService {
+class MarvelCharactersServiceImpl : MarvelCharactersService {
 
     private val api: MarvelRequestGenerator = MarvelRequestGenerator()
     private val mapper: CharacterMapperService = CharacterMapperService()
@@ -31,12 +31,11 @@ class MarvelCharactersServiceImpl(private val marvelCharacterRepositoryImpl: Mar
                 response.body()?.data?.characters?.let {
                     mapper.transform(it)
                 }?.let {
-                    marvelCharacterRepositoryImpl.insertCharacters(it)
                     return Result.Success(it)
                 }
-            return Result.Failure(Exception(response.message()))
         } catch (e: Exception) {
-            return marvelCharacterRepositoryImpl.getLocalCharacters()
+            return Result.Failure(Exception(NOT_FOUND))
         }
+        return Result.Failure(Exception(NOT_FOUND))
     }
 }

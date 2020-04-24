@@ -42,7 +42,8 @@ class CharacterDatabase {
         Realm.getDefaultInstance().use { realm ->
             val characters = realm.where(MarvelCharacterRealm::class.java).findAll()
             characters?.let {
-                return Result.Success(mapperLocal.transformToListOfCharacters(it))
+                if(it.isNotEmpty())
+                    return Result.Success(mapperLocal.transformToListOfCharacters(it))
             }
         }
         return Result.Failure(Exception(NOT_FOUND))
@@ -50,6 +51,6 @@ class CharacterDatabase {
 
     companion object {
         private const val ID = "id"
-        private const val NOT_FOUND = "Character not found"
+        private const val NOT_FOUND = "Characters not found"
     }
 }

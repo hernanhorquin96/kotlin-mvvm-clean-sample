@@ -8,6 +8,6 @@ import org.koin.dsl.module
 
 val viewModelsModule = module {
     viewModel { CharacterViewModel(get()) }
-    viewModel { CharactersViewModel(get()) }
+    viewModel { CharactersViewModel(get(), get()) }
     viewModel { CharacterDetailViewModel(get()) }
 }
