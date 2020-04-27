@@ -46,47 +46,46 @@ class CharactersActivity : AppCompatActivity() {
 
     private fun showLocalData(charactersData: Event<Data<List<MarvelCharacter>>>) {
         when (charactersData.peekContent().responseType) {
-            Status.GetLocalCharacterError -> {
-                progress_bar.visibility = View.GONE
-                charactersData.peekContent().error?.message?.let {
-                    Toast.makeText(this, it, Toast.LENGTH_LONG).show()
-                }
+            Status.GET_LOCAL_CHARACTER_ERROR -> {
+                showErrorMsg(charactersData.peekContent().error?.message)
             }
             Status.LOADING -> {
                 progress_bar.visibility = View.VISIBLE
             }
-            Status.GetLocalCharactersSuccess -> {
-                progress_bar.visibility = View.GONE
-                button_clear.visibility = View.VISIBLE
-                charactersData.peekContent().data?.let { characterList ->
-                    adapter.update(characterList)
-                    recycler_view_characters.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
-                    recycler_view_characters.adapter = adapter
-                }
+            Status.GET_LOCAL_CHARACTER_SUCCESS -> {
+                showCharacters(charactersData.peekContent().data)
             }
         }
     }
 
     private fun updateUI(charactersData: Event<Data<List<MarvelCharacter>>>) {
         when (charactersData.peekContent().responseType) {
-            Status.GetCharacterError -> {
-                progress_bar.visibility = View.GONE
-                charactersData.peekContent().error?.message?.let {
-                    Toast.makeText(this, it, Toast.LENGTH_LONG).show()
-                }
+            Status.GET_CHARACTER_ERROR -> {
+                showErrorMsg(charactersData.peekContent().error?.message)
             }
             Status.LOADING -> {
                 progress_bar.visibility = View.VISIBLE
             }
-            Status.GetCharacterSuccess -> {
-                progress_bar.visibility = View.GONE
-                button_clear.visibility = View.VISIBLE
-                charactersData.peekContent().data?.let { characterList ->
-                    adapter.update(characterList)
-                    recycler_view_characters.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
-                    recycler_view_characters.adapter = adapter
-                }
+            Status.GET_CHARACTER_SUCCESS -> {
+                showCharacters(charactersData.peekContent().data)
             }
+        }
+    }
+
+    private fun showErrorMsg(errorMessage: String?) {
+        progress_bar.visibility = View.GONE
+        errorMessage?.let {
+            Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun showCharacters(characters: List<MarvelCharacter>?) {
+        progress_bar.visibility = View.GONE
+        button_clear.visibility = View.VISIBLE
+        characters?.let {
+            adapter.update(characters)
+            recycler_view_characters.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
+            recycler_view_characters.adapter = adapter
         }
     }
 }

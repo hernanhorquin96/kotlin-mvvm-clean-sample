@@ -34,10 +34,10 @@ class CharactersViewModel(val getCharactersUseCase: GetCharacterUseCase, val get
         withContext(Dispatchers.IO) { getCharactersUseCase.invoke() }.let { result ->
             when (result) {
                 is Result.Failure -> {
-                    mutableMainState.postValue(Event(Data(responseType = Status.GetCharacterError, error = result.exception)))
+                    mutableMainState.postValue(Event(Data(responseType = Status.GET_CHARACTER_ERROR, error = result.exception)))
                 }
                 is Result.Success -> {
-                    mutableMainState.postValue(Event(Data(responseType = Status.GetCharacterSuccess, data = result.data)))
+                    mutableMainState.postValue(Event(Data(responseType = Status.GET_CHARACTER_SUCCESS, data = result.data)))
                 }
             }
         }
@@ -48,10 +48,10 @@ class CharactersViewModel(val getCharactersUseCase: GetCharacterUseCase, val get
         withContext(Dispatchers.IO) { getLocalCharactersUseCase.invoke() }.let { result ->
             when (result) {
                 is Result.Failure -> {
-                    mutableLocalDataState.postValue(Event(Data(responseType = Status.GetLocalCharacterError, error = result.exception)))
+                    mutableLocalDataState.postValue(Event(Data(responseType = Status.GET_LOCAL_CHARACTER_ERROR, error = result.exception)))
                 }
                 is Result.Success -> {
-                    mutableLocalDataState.postValue(Event(Data(responseType = Status.GetLocalCharactersSuccess, data = result.data)))
+                    mutableLocalDataState.postValue(Event(Data(responseType = Status.GET_LOCAL_CHARACTER_SUCCESS, data = result.data)))
                 }
             }
         }
