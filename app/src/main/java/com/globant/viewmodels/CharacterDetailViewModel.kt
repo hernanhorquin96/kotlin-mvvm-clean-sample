@@ -26,10 +26,10 @@ class CharacterDetailViewModel(val getCharacterByIdUseCase: GetCharacterByIdUseC
         mutableMainState.postValue(Event(Data(responseType = Status.LOADING)))
         when (val result = withContext(Dispatchers.IO) { getCharacterByIdUseCase.invoke(id, true) }) {
             is Result.Failure -> {
-                mutableMainState.postValue(Event(Data(responseType = Status.GetCharacterByIdError, error = result.exception)))
+                mutableMainState.postValue(Event(Data(responseType = Status.GET_CHARACTER_BY_ID_ERROR, error = result.exception)))
             }
             is Result.Success -> {
-                mutableMainState.postValue(Event(Data(responseType = Status.GetCharacterByIdSuccess, data = result.data)))
+                mutableMainState.postValue(Event(Data(responseType = Status.GET_CHARACTER_BY_ID_SUCCESS, data = result.data)))
             }
         }
 

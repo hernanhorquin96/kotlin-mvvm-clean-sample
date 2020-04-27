@@ -27,23 +27,31 @@ class CharacterDetailFragment : DialogFragment() {
 
     private fun updateUI(character: Event<Data<MarvelCharacter>>) {
         when (character.peekContent().responseType) {
-            Status.GetCharacterByIdError -> {
-                progress_bar.visibility = View.GONE
-                character.peekContent().error?.message?.let {
-                    Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-                }
+            Status.GET_CHARACTER_BY_ID_ERROR -> {
+                showErrorMsg(character.peekContent().error?.message)
             }
             Status.LOADING -> {
                 progress_bar.visibility = View.VISIBLE
             }
-            Status.GetCharacterByIdSuccess -> {
-                progress_bar.visibility = View.GONE
-                character.peekContent().data?.let {
-                    img_character?.getImageByUrl("${it.thumbnail.path}$DOT${it.thumbnail.extension}")
-                    txt_character_name?.text = it.name
-                    txt_character_description?.text = it.description
-                }
+            Status.GET_CHARACTER_BY_ID_SUCCESS -> {
+                showCharacterData(character.peekContent().data)
             }
+        }
+    }
+
+    private fun showErrorMsg(errorMsg: String?) {
+        progress_bar.visibility = View.GONE
+        errorMsg?.let {
+            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun showCharacterData(character: MarvelCharacter?) {
+        progress_bar.visibility = View.GONE
+        character?.let {
+            img_character?.getImageByUrl("${it.thumbnail.path}$DOT${it.thumbnail.extension}")
+            txt_character_name?.text = it.name
+            txt_character_description?.text = it.description
         }
     }
 

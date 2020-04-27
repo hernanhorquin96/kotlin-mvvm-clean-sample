@@ -1,6 +1,7 @@
 package com.globant.data.service
 
 import com.globant.data.MarvelRequestGenerator
+import com.globant.data.NOT_FOUND
 import com.globant.data.ZERO
 import com.globant.data.mapper.CharacterMapperService
 import com.globant.data.service.api.MarvelApi
@@ -23,12 +24,18 @@ class MarvelCharactersServiceImpl : MarvelCharactersService {
     }
 
     override fun getCharacters(): Result<List<MarvelCharacter>> {
-        val callResponse = api.createService(MarvelApi::class.java).getCharacters()
-        val response = callResponse.execute()
-        if (response.isSuccessful)
-            response.body()?.data?.characters?.let { mapper.transform(it) }?.let { return Result.Success(it) }
-
-        return Result.Failure(Exception(response.message()))
+        try {
+            val callResponse = api.createService(MarvelApi::class.java).getCharacters()
+            val response = callResponse.execute()
+            if (response.isSuccessful)
+                response.body()?.data?.characters?.let {
+                    mapper.transform(it)
+                }?.let {
+                    return Result.Success(it)
+                }
+        } catch (e: Exception) {
+            return Result.Failure(Exception(NOT_FOUND))
+        }
+        return Result.Failure(Exception(NOT_FOUND))
     }
-
 }

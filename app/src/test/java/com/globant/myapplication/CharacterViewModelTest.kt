@@ -9,7 +9,6 @@ import com.globant.domain.usecases.implementations.GetCharacterByIdUseCaseImpl
 import com.globant.domain.utils.Result
 import com.globant.utils.Data
 import com.globant.utils.Status
-import com.globant.viewmodels.CharacterViewModel
 import com.google.common.truth.Truth
 import kotlinx.coroutines.*
 import kotlinx.coroutines.test.resetMain

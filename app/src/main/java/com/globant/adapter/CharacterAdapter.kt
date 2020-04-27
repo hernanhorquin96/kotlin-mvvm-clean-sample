@@ -11,9 +11,10 @@ import kotlinx.android.synthetic.main.item_character.view.image_thumbnail
 import kotlinx.android.synthetic.main.item_character.view.tv_item
 
 class CharacterAdapter(
-        private val characters: List<MarvelCharacter>,
         private val onCharacterClicked: (MarvelCharacter) -> Unit
 ) : RecyclerView.Adapter<CharacterAdapter.ViewHolder>() {
+
+    private val characters = mutableListOf<MarvelCharacter>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
             ViewHolder(
@@ -29,6 +30,12 @@ class CharacterAdapter(
     }
 
     override fun getItemCount(): Int = characters.size
+
+    fun update(items: List<MarvelCharacter>) {
+        characters.clear()
+        characters.addAll(items)
+        notifyDataSetChanged()
+    }
 
     class ViewHolder(itemView: View, private val onCharactrClicked: (MarvelCharacter) -> Unit) :
             RecyclerView.ViewHolder(itemView) {
