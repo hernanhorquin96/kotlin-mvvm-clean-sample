@@ -1,17 +1,17 @@
 package com.globant.myapplication
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
 import com.globant.di.viewModelsModule
 import com.globant.domain.entities.MarvelCharacter
-import com.globant.domain.usecases.implementations.GetCharactersUseCaseImpl
-import com.globant.domain.usecases.implementations.GetLocalCharactersUseCaseImpl
+import com.globant.domain.usecases.implementations.GetCharacterByIdUseCaseImpl
 import com.globant.domain.utils.Result
 import com.globant.myapplication.util.testObserver
 import com.globant.repositoriesModule
 import com.globant.useCasesModule
 import com.globant.utils.Data
 import com.globant.utils.Status
-import com.globant.viewmodels.CharactersViewModel
+import com.globant.viewmodels.CharacterDetailViewModel
 import com.google.common.truth.Truth
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
@@ -32,7 +32,7 @@ import org.koin.test.AutoCloseKoinTest
 import org.mockito.MockitoAnnotations
 import java.lang.Exception
 
-class CharacterViewModelTest : AutoCloseKoinTest() {
+class CharacterDetailViewModelTest : AutoCloseKoinTest() {
 
     @ObsoleteCoroutinesApi
     private var mainThreadSurrogate = newSingleThreadContext(UI_THREAD)
@@ -40,13 +40,12 @@ class CharacterViewModelTest : AutoCloseKoinTest() {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    lateinit var viewModel: CharactersViewModel
-    private lateinit var marvelCharacterValidResult: Result.Success<List<MarvelCharacter>>
+    lateinit var viewModel: CharacterDetailViewModel
+    private lateinit var marvelCharacterValidResult: Result.Success<MarvelCharacter>
     private lateinit var marvelCharacterInvalidResult: Result.Failure
-    private lateinit var characters: List<MarvelCharacter>
+    private lateinit var characters: MarvelCharacter
     private lateinit var exception: Exception
-    private lateinit var getCharactersUseCase: GetCharactersUseCaseImpl
-    private lateinit var getLocalCharactersUseCase: GetLocalCharactersUseCaseImpl
+    private lateinit var getCharacterByIdUseCase: GetCharacterByIdUseCaseImpl
 
     @ExperimentalCoroutinesApi
     @ObsoleteCoroutinesApi
@@ -58,11 +57,10 @@ class CharacterViewModelTest : AutoCloseKoinTest() {
         }
         marvelCharacterInvalidResult = mock()
         marvelCharacterValidResult = mock()
-        getCharactersUseCase = mock()
-        getLocalCharactersUseCase = mock()
+        getCharacterByIdUseCase = mock()
         exception = Exception(NETWORK_ERROR)
         characters = mock()
-        viewModel = CharactersViewModel(getCharactersUseCase, getLocalCharactersUseCase)
+        viewModel = CharacterDetailViewModel(getCharacterByIdUseCase)
         MockitoAnnotations.initMocks(this)
     }
 
@@ -76,61 +74,42 @@ class CharacterViewModelTest : AutoCloseKoinTest() {
     }
 
     @Test
-    fun onGetLocalCharactersTestSuccessful() {
-        val liveDataUnderTest = viewModel.localDataState.testObserver()
-        runBlocking {
-            whenever(getLocalCharactersUseCase.invoke()).thenReturn(marvelCharacterValidResult)
-            whenever(marvelCharacterValidResult.data).thenReturn(characters)
-            viewModel.getLocalCharacters().join()
-        }
-        Truth.assert_()
-                .that(liveDataUnderTest.observedValues)
-                .isEqualTo(listOf(Data(Status.LOADING), Data(Status.GET_LOCAL_CHARACTER_SUCCESS, data = characters)))
-    }
-
-    @Test
     fun onGetRemoteCharactersTestError() {
-        characters = emptyList()
         val liveDataUnderTest = viewModel.mainState.testObserver()
         runBlocking {
-            whenever(getCharactersUseCase.invoke()).thenReturn(marvelCharacterInvalidResult)
+            whenever(getCharacterByIdUseCase.invoke(INVALID_ID, true)).thenReturn(marvelCharacterInvalidResult)
             whenever(marvelCharacterInvalidResult.exception).thenReturn(exception)
-            viewModel.getAllCharacters().join()
+            viewModel.getCharacterById(INVALID_ID).join()
         }
         Truth.assert_()
                 .that(liveDataUnderTest.observedValues)
-                .isEqualTo(listOf(Data(Status.LOADING), Data(Status.GET_CHARACTER_ERROR, data = null, error = exception)))
+                .isEqualTo(listOf(Data(Status.LOADING), Data(Status.GET_CHARACTER_BY_ID_ERROR, data = null, error = exception)))
     }
 
     @Test
     fun onGetRemoteCharactersSuccessful() {
         val liveDataUnderTest = viewModel.mainState.testObserver()
         runBlocking {
-            whenever(getCharactersUseCase.invoke()).thenReturn(marvelCharacterValidResult)
+            whenever(getCharacterByIdUseCase.invoke(VALID_ID, true)).thenReturn(marvelCharacterValidResult)
             whenever(marvelCharacterValidResult.data).thenReturn(characters)
-            viewModel.getAllCharacters().join()
+            viewModel.getCharacterById(VALID_ID).join()
         }
         Truth.assert_()
                 .that(liveDataUnderTest.observedValues)
-                .isEqualTo(listOf(Data(Status.LOADING), Data(Status.GET_CHARACTER_SUCCESS, data = characters)))
+                .isEqualTo(listOf(Data(Status.LOADING), Data(Status.GET_CHARACTER_BY_ID_SUCCESS, data = characters)))
     }
 
-    @Test
-    fun onGetLocalCharactersTestError() {
-        characters = emptyList()
-        val liveDataUnderTest = viewModel.localDataState.testObserver()
-        runBlocking {
-            whenever(getLocalCharactersUseCase.invoke()).thenReturn(marvelCharacterInvalidResult)
-            whenever(marvelCharacterInvalidResult.exception).thenReturn(exception)
-            viewModel.getLocalCharacters().join()
+    class TestObserver<T> : Observer<T> {
+        val observedValues = mutableListOf<T?>()
+        override fun onChanged(value: T?) {
+            observedValues.add(value)
         }
-        Truth.assert_()
-                .that(liveDataUnderTest.observedValues)
-                .isEqualTo(listOf(Data(Status.LOADING), Data(Status.GET_LOCAL_CHARACTER_ERROR, data = null, error = exception)))
     }
 
     companion object {
         private const val NETWORK_ERROR = "Network Error"
         private const val UI_THREAD = "UI thread"
+        private const val VALID_ID = 1017100
+        private const val INVALID_ID = -1
     }
 }

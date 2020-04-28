@@ -44,30 +44,30 @@ class CharactersActivity : AppCompatActivity() {
         viewModel.mainState.observe(::getLifecycle, ::updateUI)
     }
 
-    private fun showLocalData(charactersData: Event<Data<List<MarvelCharacter>>>) {
-        when (charactersData.peekContent().responseType) {
+    private fun showLocalData(charactersData: Data<List<MarvelCharacter>>) {
+        when (charactersData.responseType) {
             Status.GET_LOCAL_CHARACTER_ERROR -> {
-                showErrorMsg(charactersData.peekContent().error?.message)
+                showErrorMsg(charactersData.error?.message)
             }
             Status.LOADING -> {
                 progress_bar.visibility = View.VISIBLE
             }
             Status.GET_LOCAL_CHARACTER_SUCCESS -> {
-                showCharacters(charactersData.peekContent().data)
+                showCharacters(charactersData.data)
             }
         }
     }
 
-    private fun updateUI(charactersData: Event<Data<List<MarvelCharacter>>>) {
-        when (charactersData.peekContent().responseType) {
+    private fun updateUI(charactersData: Data<List<MarvelCharacter>>) {
+        when (charactersData.responseType) {
             Status.GET_CHARACTER_ERROR -> {
-                showErrorMsg(charactersData.peekContent().error?.message)
+                showErrorMsg(charactersData.error?.message)
             }
             Status.LOADING -> {
                 progress_bar.visibility = View.VISIBLE
             }
             Status.GET_CHARACTER_SUCCESS -> {
-                showCharacters(charactersData.peekContent().data)
+                showCharacters(charactersData.data)
             }
         }
     }
@@ -89,3 +89,4 @@ class CharactersActivity : AppCompatActivity() {
         }
     }
 }
+

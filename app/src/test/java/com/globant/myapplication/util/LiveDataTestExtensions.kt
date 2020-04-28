@@ -18,6 +18,7 @@ package com.globant.myapplication.util
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.globant.myapplication.CharacterDetailViewModelTest
 import com.google.common.truth.Truth
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.channels.Channel
@@ -87,4 +88,8 @@ fun <T> LiveData<T>.getValueForTest(): T? {
     observeForever(observer)
     removeObserver(observer)
     return value
+}
+
+fun <T> LiveData<T>.testObserver() = CharacterDetailViewModelTest.TestObserver<T>().also {
+    observeForever(it)
 }
