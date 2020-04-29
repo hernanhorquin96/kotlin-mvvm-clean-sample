@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -14,10 +15,12 @@
 
     <ImageView
         android:id="@+id/img_character"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minHeight="@dimen/character_image_height"
         android:minWidth="@dimen/character_image_height"
+        app:layout_constraintEnd_toEndOf="@id/progress_bar"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_character_name" />
 
     <ProgressBar
@@ -41,7 +44,10 @@
     <TextView
         android:id="@+id/txt_character_description"
         style="@style/CharacterDescriptionText"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/text_view_width"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/img_character" />
+        android:layout_margin="@dimen/margin_cardview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/img_character"
+        app:layout_constraintTop_toTopOf="@+id/img_character" />
 </androidx.constraintlayout.widget.ConstraintLayout>

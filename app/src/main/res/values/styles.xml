@@ -8,4 +8,23 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="FloatingButton">
+        <item name="backgroundTint">@color/white</item>
+        <item name="android:layout_margin">@dimen/margin_cardview</item>
+    </style>
+
+    <style name="CharacterNameText">
+        <item name="background">@color/colorPrimary</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/name_text_size</item>
+        <item name="android:layout_marginStart">@dimen/activity_margin</item>
+    </style>
+
+    <style name="CharacterDescriptionText">
+        <item name="background">@color/colorPrimary</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/description_text_size</item>
+        <item name="android:layout_margin">@dimen/margin_cardview</item>
+    </style>
+
 </resources>

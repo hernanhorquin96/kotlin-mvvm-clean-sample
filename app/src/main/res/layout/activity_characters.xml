@@ -24,21 +24,19 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button_refresh"
+        style="@style/FloatingButton"
         android:layout_width="@dimen/margin_floating_button"
         android:layout_height="@dimen/margin_floating_button"
-        android:layout_margin="@dimen/margin_cardview"
-        android:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/ic_refresh"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button_clear"
+        style="@style/FloatingButton"
         android:layout_width="@dimen/margin_floating_button"
         android:layout_height="@dimen/margin_floating_button"
-        android:layout_margin="@dimen/margin_cardview"
         android:visibility="gone"
-        android:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,10 +44,9 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button_local_data"
+        style="@style/FloatingButton"
         android:layout_width="@dimen/margin_floating_button"
         android:layout_height="@dimen/margin_floating_button"
-        android:layout_margin="@dimen/margin_cardview"
-        android:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:src="@drawable/ic_download"/>

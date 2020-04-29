@@ -10,10 +10,8 @@ import com.globant.domain.entities.MarvelCharacter
 import com.globant.extensions.getImageByUrl
 import com.globant.myapplication.R
 import com.globant.utils.Data
-import com.globant.utils.Event
 import com.globant.utils.Status
 import com.globant.viewmodels.CharacterDetailViewModel
-import kotlinx.android.synthetic.main.activity_main.progress
 import kotlinx.android.synthetic.main.fragment_character_detail.img_character
 import kotlinx.android.synthetic.main.fragment_character_detail.progress_bar
 import kotlinx.android.synthetic.main.fragment_character_detail.txt_character_description
@@ -25,16 +23,16 @@ class CharacterDetailFragment : DialogFragment() {
 
     private val viewModel by viewModel<CharacterDetailViewModel>()
 
-    private fun updateUI(character: Event<Data<MarvelCharacter>>) {
-        when (character.peekContent().responseType) {
+    private fun updateUI(character: Data<MarvelCharacter>) {
+        when (character.responseType) {
             Status.GET_CHARACTER_BY_ID_ERROR -> {
-                showErrorMsg(character.peekContent().error?.message)
+                showErrorMsg(character.error?.message)
             }
             Status.LOADING -> {
                 progress_bar.visibility = View.VISIBLE
             }
             Status.GET_CHARACTER_BY_ID_SUCCESS -> {
-                showCharacterData(character.peekContent().data)
+                showCharacterData(character.data)
             }
         }
     }

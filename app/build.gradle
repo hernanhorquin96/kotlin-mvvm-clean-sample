@@ -63,6 +63,7 @@ dependencies {
     testImplementation lib.coroutinesCore
     testImplementation lib.coroutinesAndroid
     testImplementation lib.coroutinesTest
+    testImplementation lib.mockitokotlin
     debugImplementation lib.chucker
     releaseImplementation lib.chuckerReleaseImplementation
 }
