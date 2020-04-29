@@ -40,12 +40,13 @@ class CharacterDetailViewModelTest : AutoCloseKoinTest() {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    lateinit var viewModel: CharacterDetailViewModel
-    private lateinit var marvelCharacterValidResult: Result.Success<MarvelCharacter>
-    private lateinit var marvelCharacterInvalidResult: Result.Failure
-    private lateinit var characters: MarvelCharacter
-    private lateinit var exception: Exception
-    private lateinit var getCharacterByIdUseCase: GetCharacterByIdUseCaseImpl
+    private var marvelCharacterValidResult: Result.Success<MarvelCharacter> = mock()
+    private var marvelCharacterInvalidResult: Result.Failure = mock()
+    private var characters: MarvelCharacter = mock()
+    private var exception: Exception = Exception(NETWORK_ERROR)
+    private var getCharacterByIdUseCase: GetCharacterByIdUseCaseImpl = mock()
+    private var viewModel: CharacterDetailViewModel = CharacterDetailViewModel(getCharacterByIdUseCase)
+
 
     @ExperimentalCoroutinesApi
     @ObsoleteCoroutinesApi
@@ -55,12 +56,6 @@ class CharacterDetailViewModelTest : AutoCloseKoinTest() {
         startKoin {
             modules(listOf(useCasesModule, viewModelsModule, repositoriesModule))
         }
-        marvelCharacterInvalidResult = mock()
-        marvelCharacterValidResult = mock()
-        getCharacterByIdUseCase = mock()
-        exception = Exception(NETWORK_ERROR)
-        characters = mock()
-        viewModel = CharacterDetailViewModel(getCharacterByIdUseCase)
         MockitoAnnotations.initMocks(this)
     }
 
